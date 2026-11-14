@@ -1,10 +1,10 @@
-import type { Register, ThemeSetArgs } from 'claude-code'
+import type { Register } from 'claude-code'
 
 import { makeColors } from './make-colors.js'
 
 // Colors from github.com/tokyo-night/tokyo-night-vscode-theme: "Tokyo Night" for dark mode, "Tokyo Night Light" for
-// light mode. Where a value moved off the theme's own, it moved to another color of the same palette so text stays
-// readable: dark muted text and dark diff colors were under the contrast Desktop needs to paint the theme.
+// light mode. Two dark values moved to other colors of the same palette: muted text, which was under the 3:1 Desktop
+// needs to paint the theme at all, and the diff colors, which were hard to read on panels.
 const { theme, problems } = makeColors({
   label: 'Tokyo Night',
   // The app ships the same theme for code highlighting; light mode colors code from the roles below.
@@ -48,22 +48,17 @@ const { theme, problems } = makeColors({
   },
 })
 
-const LOOK: ThemeSetArgs = { colors: theme }
+// A line that starts this way means Desktop ignores the whole theme: say so rather than paint nothing quietly.
+const refusal = problems.find(line => line.startsWith("Desktop won't paint"))
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
-    // A line that starts this way means Desktop ignores the whole theme: say so rather than paint nothing quietly.
-    const unpainted = problems.find(line => line.startsWith("Desktop won't paint"))
-
-    if (unpainted !== undefined) {
-      void $.ui.toast(`tokyo-night: ${unpainted}`)
+    if (refusal !== undefined) {
+      void $.ui.toast(`tokyo-night: ${refusal}`)
     }
 
-    const set = await $.theme.set(LOOK)
-
-    if (!set.isDrawn) {
-      void $.ui.status(set.reason)
-    }
+    // The result says only whether a backdrop is drawn, which this theme doesn't have, so there is nothing to read.
+    await $.theme.set({ colors: theme })
 
     return next(e)
   })
