@@ -1,7 +1,7 @@
 {
   "name": "tokyo-night",
   "version": "0.1.0",
-  "description": "Tokyo Night colors for the desktop Code tab: Tokyo Night in dark mode, Tokyo Night Light in light mode, after the tokyo-night-vscode-theme palette.",
+  "description": "Tokyo Night colors for the Claude Code desktop app: Tokyo Night in dark mode, Tokyo Night Light in light mode.",
   "author": { "name": "MarkoJauregui" },
   "license": "MIT",
   "homepage": "https://github.com/MarkoJauregui/claude-code-tokyo-night",
