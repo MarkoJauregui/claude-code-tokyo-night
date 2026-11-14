@@ -6,7 +6,7 @@
     {
       "name": "tokyo-night",
       "source": "./",
-      "description": "Tokyo Night colors for the Claude Code desktop app's Code tab, in dark and light mode."
+      "description": "Tokyo Night colors for the Claude Code desktop app: Tokyo Night in dark mode, Tokyo Night Light in light mode."
     }
   ]
 }
